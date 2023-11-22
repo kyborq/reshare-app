@@ -1,0 +1,10 @@
+.Main {
+  display: flex;
+}
+
+.Main .Content {
+  max-width: 1280px;
+  width: 100%;
+  display: flex;
+  flex: 1;
+}
