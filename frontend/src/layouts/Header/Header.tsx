@@ -1,4 +1,4 @@
-import { CodeIcon, HelpIcon, KeyIcon } from "../../assets/icons";
+import { KeyIcon } from "../../assets/icons";
 import { Button } from "../../components/Button";
 import { Logo } from "../../components/Logo";
 
@@ -10,8 +10,6 @@ export const Header = () => {
       <div className={styles.Container}>
         <Logo />
         <div className={styles.Navigation}>
-          <Button icon={<CodeIcon />} />
-          <Button icon={<HelpIcon />} />
           <Button icon={<KeyIcon />} label="Войти" />
         </div>
       </div>
