@@ -1,0 +1,23 @@
+.Button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  transition: 250ms;
+}
+
+.Button:hover {
+  background-color: #e2e2e2;
+  transition: 250ms;
+}
+
+.Button:active {
+  transition: 250ms;
+  background-color: #cccccc;
+}
