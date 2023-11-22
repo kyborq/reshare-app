@@ -7,12 +7,12 @@ import { Background } from "../components/Background";
 export const Root = () => {
   return (
     <>
-      <Background />
       <Header />
       <Wrap>
         <Outlet />
       </Wrap>
       <Footer />
+      <Background />
     </>
   );
 };

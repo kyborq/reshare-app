@@ -8,7 +8,7 @@ export const Background = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      window.scrollY < 300 && setScroll(window.scrollY);
+      setScroll(window.scrollY < 300 ? window.scrollY : 300);
     };
 
     window.addEventListener("scroll", handleScroll);

@@ -1,0 +1,31 @@
+.Footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.Footer .Container {
+  max-width: 1280px;
+  width: 100%;
+  padding: 64px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.Links {
+  display: flex;
+  gap: 16px;
+}
+
+.Link {
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: 250ms;
+}
+
+.Link:hover {
+  color: rgba(255, 255, 255, 0.8);
+  transition: 250ms;
+}
