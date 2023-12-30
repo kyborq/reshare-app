@@ -1,27 +1,25 @@
-import { KeyBoldIcon, UserBoldIcon } from "../../assets/icons";
-import { ActionButton } from "../ActionButton";
-import { Field } from "../Field";
 import styles from "./Form.module.css";
 
-type Props = {};
+type Props = {
+  title: string;
+  children?: React.ReactNode;
+};
 
-export const Form: React.FC<Props> = ({}) => {
+export const Form: React.FC<Props> & {
+  Content: React.FC<ContentProps>;
+} = ({ title, children }) => {
   return (
     <form className={styles.Form}>
-      <h2 className={styles.Title}>Добро пожаловать</h2>
-      <div className={styles.Content}>
-        <Field
-          icon={<UserBoldIcon fill="#adb5bd" />}
-          label="Электронная почта:"
-          placeholder="example@mail.com"
-        />
-        <Field
-          icon={<KeyBoldIcon fill="#adb5bd" />}
-          label="Пароль:"
-          placeholder="Password"
-        />
-      </div>
-      <ActionButton icon={<KeyBoldIcon fill="#ffffff" />} label="Войти" />
+      <h2 className={styles.Title}>{title}</h2>
+      {children}
     </form>
   );
+};
+
+type ContentProps = {
+  children?: React.ReactNode;
+};
+
+Form.Content = ({ children }: ContentProps) => {
+  return <div className={styles.Content}>{children}</div>;
 };

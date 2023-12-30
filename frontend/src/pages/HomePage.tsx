@@ -1,9 +1,15 @@
-import { DownloadIcon } from "../assets/icons";
+import { DownloadIcon, KeyBoldIcon, UserBoldIcon } from "../assets/icons";
 import { ActionButton } from "../components/ActionButton";
+import { Modal } from "../components/Modal";
 import { Title } from "../components/Title";
 import { Card } from "../layouts/Card";
+import { Field } from "../components/Field";
+import { Form } from "../components/Form";
+import { useModal } from "../hooks/useModal";
 
 export const HomePage = () => {
+  const registerModal = useModal();
+
   return (
     <>
       <div
@@ -27,11 +33,35 @@ export const HomePage = () => {
           backgroundColor="#9381ff"
           label="Присоединиться"
           icon={<DownloadIcon />}
+          onClick={registerModal.openModal}
         />
       </div>
       <Card>
         <Title />
       </Card>
+
+      <Modal state={registerModal}>
+        <Form title="Регистрация">
+          <Form.Content>
+            <Field
+              icon={<UserBoldIcon fill="#adb5bd" />}
+              label="Электронная почта:"
+              placeholder="example@mail.com"
+            />
+            <Field
+              icon={<KeyBoldIcon fill="#adb5bd" />}
+              label="Пароль:"
+              placeholder="Password"
+            />
+            <Field
+              icon={<KeyBoldIcon fill="#adb5bd" />}
+              label="Пароль:"
+              placeholder="Password"
+            />
+          </Form.Content>
+          <ActionButton icon={<KeyBoldIcon fill="#ffffff" />} label="Войти" />
+        </Form>
+      </Modal>
     </>
   );
 };
