@@ -1,0 +1,17 @@
+.Form {
+  display: flex;
+  flex-direction: column;
+  padding: 64px 48px;
+  gap: 32px;
+}
+
+.Title {
+  margin: 0;
+  text-align: center;
+}
+
+.Content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

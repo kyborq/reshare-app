@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styles from "./Card.module.css";
 
 type Props = {
@@ -5,5 +6,13 @@ type Props = {
 };
 
 export const Card: React.FC<Props> = ({ children }) => {
-  return <div className={styles.Card}>{children}</div>;
+  return (
+    <motion.div
+      className={styles.Card}
+      initial={{ translateY: 500 }}
+      animate={{ translateY: 0 }}
+    >
+      {children}
+    </motion.div>
+  );
 };

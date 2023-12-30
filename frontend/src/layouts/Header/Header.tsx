@@ -4,13 +4,17 @@ import { Logo } from "../../components/Logo";
 
 import styles from "./Header.module.css";
 
-export const Header = () => {
+type Props = {
+  onLogin?: () => void;
+};
+
+export const Header: React.FC<Props> = ({ onLogin }) => {
   return (
     <header className={styles.Header}>
       <div className={styles.Container}>
         <Logo />
         <div className={styles.Navigation}>
-          <Button icon={<KeyIcon />} label="Войти" />
+          <Button icon={<KeyIcon />} onClick={onLogin} label="Войти" />
         </div>
       </div>
     </header>

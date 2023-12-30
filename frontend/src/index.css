@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter;
+  font-family: "Montserrat Variable", sans-serif;
   background-color: #f8f7ff;
   scroll-behavior: smooth;
 }
@@ -19,4 +19,8 @@ body {
 button {
   font-family: inherit;
   outline: none;
+}
+
+input {
+  font-family: inherit;
 }

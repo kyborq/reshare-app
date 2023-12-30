@@ -9,15 +9,13 @@
   padding: 10px 20px;
   border-radius: 24px;
   font-weight: bold;
-  transition: 250ms;
+  transition: 150ms;
   background-color: #000000;
   color: #ffffff;
-}
-
-.Button:hover {
-  transition: 250ms;
+  justify-content: center;
 }
 
 .Button:active {
-  transition: 250ms;
+  transition: 150ms;
+  transform: scale(0.97);
 }
