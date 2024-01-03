@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Strategy } from 'passport-jwt';
+import { cookieExtractor } from 'src/common/extractors/cookie.extractor';
 
 type JwtPayload = {
   sub: string;
@@ -11,9 +12,14 @@ type JwtPayload = {
 export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: cookieExtractor,
       secretOrKey: process.env.JWT_ACCESS_SECRET,
+      passReqToCallback: false,
     });
+    // super({
+    //   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    //   secretOrKey: process.env.JWT_ACCESS_SECRET,
+    // });
   }
 
   validate(payload: JwtPayload) {
