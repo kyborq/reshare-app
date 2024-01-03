@@ -3,6 +3,7 @@
   flex-direction: column;
   padding: 64px 48px;
   gap: 32px;
+  user-select: none;
 }
 
 .Title {
@@ -14,4 +15,5 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  user-select: none;
 }
