@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
 import { cookieExtractor } from 'src/common/extractors/cookie.extractor';
 
-type JwtPayload = {
+export type JwtPayload = {
   sub: string;
   login: string;
 };
