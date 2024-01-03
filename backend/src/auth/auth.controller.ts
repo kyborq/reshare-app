@@ -21,14 +21,14 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       path: '/',
-      maxAge: 1000 * 60 * 24,
+      maxAge: 1000 * 60 * 15,
     });
 
     response.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true,
       path: '/',
-      maxAge: 1000 * 60 * 24,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
     return {

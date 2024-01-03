@@ -16,10 +16,6 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
       secretOrKey: process.env.JWT_ACCESS_SECRET,
       passReqToCallback: false,
     });
-    // super({
-    //   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    //   secretOrKey: process.env.JWT_ACCESS_SECRET,
-    // });
   }
 
   validate(payload: JwtPayload) {
