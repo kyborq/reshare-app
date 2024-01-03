@@ -1,8 +1,8 @@
 .Title {
   display: flex;
-  padding: 48px;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 32px;
 }
 
 .Text {

@@ -1,0 +1,26 @@
+.ListElement {
+  /* height: 100px; */
+  padding: 32px;
+  display: flex;
+  background-color: #f8f7ff;
+  border-radius: 10px;
+  gap: 16px;
+}
+
+.Meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+}
+
+.Title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.Text {
+  font-size: 13px;
+  color: #8983ad;
+}

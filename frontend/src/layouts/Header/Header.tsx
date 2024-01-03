@@ -1,5 +1,5 @@
 import { User } from "../../api/models/userModel";
-import { KeyIcon, UserIcon } from "../../assets/icons";
+import { KeyIcon, PremiumIcon, UserIcon } from "../../assets/icons";
 import { Button } from "../../components/Button";
 import { Logo } from "../../components/Logo";
 
@@ -19,7 +19,12 @@ export const Header: React.FC<Props> = ({ user, onLogin }) => {
           {!user && (
             <Button icon={<KeyIcon />} onClick={onLogin} label="Войти" />
           )}
-          {user && <Button icon={<UserIcon />} label={user.login} />}
+          {user && (
+            <>
+              <Button icon={<PremiumIcon />} label="Премиум" />
+              <Button icon={<UserIcon />} label={user.login} />
+            </>
+          )}
         </div>
       </div>
     </header>

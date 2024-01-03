@@ -5,6 +5,8 @@ import DownloadIcon from "./download.svg?react";
 import KeyBoldIcon from "./key-bold.svg?react";
 import UserBoldIcon from "./user-bold.svg?react";
 import UserIcon from "./user.svg?react";
+import FileIcon from "./file-icon.svg?react";
+import PremiumIcon from "./premium.svg?react";
 
 export {
   KeyIcon,
@@ -14,4 +16,6 @@ export {
   DownloadIcon,
   UserBoldIcon,
   UserIcon,
+  FileIcon,
+  PremiumIcon,
 };

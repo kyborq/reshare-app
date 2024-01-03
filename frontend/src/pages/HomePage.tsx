@@ -6,78 +6,71 @@ import { Card } from "../layouts/Card";
 import { Field } from "../components/Field";
 import { Form } from "../components/Form";
 import { useModal } from "../hooks/useModal";
-import { useAtomValue } from "jotai";
-import { userAtom } from "../store/userAtom";
-import { useForm } from "react-hook-form";
-import { useMutation, useQuery } from "react-query";
-import { getMyFiles, uploadFile } from "../api/services/uploadService";
-
-type MyForm = {
-  file: FileList;
-};
+import { ListElement } from "../components/ListElement";
+import { Hero } from "../components/Hero";
+import { ChangeEvent, useRef } from "react";
+import { useUpload } from "../api/hooks/useUpload";
+import { useStorage } from "../api/hooks/useStorage";
+import { Button } from "../components/Button";
+import { UploadedFile } from "../api/models/fileModel";
 
 export const HomePage = () => {
-  const { register, handleSubmit } = useForm<MyForm>();
-  const { data } = useQuery({
-    queryFn: getMyFiles,
-    onSuccess: (data) => {
-      console.log(data);
-    },
-  });
-  const { mutate } = useMutation({
-    mutationFn: (file: File) => uploadFile(file),
-  });
-  const { user } = useAtomValue(userAtom);
   const registerModal = useModal();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { files, updateList } = useStorage();
+  const { uploadFile, downloadFile } = useUpload(updateList);
 
-  const onSubmit = (data: MyForm) => {
-    mutate(data.file[0]);
-    console.log(data.file[0]);
+  const handleUploadClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleSubmitFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const currentFile = files[0];
+      uploadFile(currentFile);
+    }
+  };
+
+  const handleDownload = (file: UploadedFile) => {
+    downloadFile(file);
   };
 
   return (
     <>
-      <div
-        style={{
-          height: 300,
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: 48,
-        }}
-      >
-        {!user && (
-          <>
-            <h2
-              style={{ fontSize: 40, width: 640, margin: 0, marginBottom: 16 }}
-            >
-              Самый лучший файлообменник по мнению моих друзей
-            </h2>
-            <p style={{ margin: 0, marginBottom: 32, color: "#c7c7c7" }}>
-              А каким файлообменником ты пользуешься?
-            </p>
-            <ActionButton
-              backgroundColor="#9381ff"
-              label="Присоединиться"
-              icon={<DownloadIcon />}
-              onClick={registerModal.openModal}
-            />
-          </>
-        )}
-      </div>
+      <Hero
+        title="Самый лучший файлообменник по мнению моих друзей"
+        text="А каким файлообменником ты пользуешься?"
+      />
       <Card>
-        <Title />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input type="file" {...register("file")} />
-          <input type="submit" />
-        </form>
-
-        {data &&
-          data?.map((file) => {
-            return <span key={file.fileName}>{file.alias}</span>;
-          })}
+        <Title title="Мои файлы">
+          <input
+            type="file"
+            hidden
+            ref={fileInputRef}
+            onChange={handleSubmitFile}
+          />
+          <ActionButton
+            label="Загрузить"
+            icon={<DownloadIcon fill="#ffffff" />}
+            onClick={handleUploadClick}
+          />
+        </Title>
+        {files &&
+          files.map((file, index) => (
+            <ListElement
+              key={index}
+              title={file.alias}
+              text={file.uploadDate.toString()}
+            >
+              <Button
+                icon={<DownloadIcon fill="#9381ff" />}
+                onClick={() => handleDownload(file)}
+              />
+            </ListElement>
+          ))}
       </Card>
 
       <Modal state={registerModal}>

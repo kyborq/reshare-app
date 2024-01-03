@@ -15,8 +15,23 @@ export class Upload {
   @Prop({ required: true })
   uploadDate: Date;
 
+  @Prop({ required: true })
+  size: number;
+
+  @Prop({ required: true })
+  extension: string;
+
+  @Prop({ required: true })
+  expirationDate: Date;
+
+  @Prop({ required: true, default: 1 })
+  version: number;
+
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user: User;
+
+  @Prop({ required: true })
+  mimeType: string;
 }
 
 export const UploadSchema = SchemaFactory.createForClass(Upload);

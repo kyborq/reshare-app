@@ -4,6 +4,7 @@ import {
   Param,
   Post,
   Req,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -11,7 +12,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { StorageService } from './storage.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { UploadDto } from './dtos/upload.dto';
 
 @Controller('storage')
@@ -27,11 +28,19 @@ export class StorageController {
     return files.map((file) => new UploadDto(file));
   }
 
-  @Get(':name')
-  async getFile(@Param('name') name: string) {
-    const file = await this.minioService.getFile(name);
+  @Get('download/:name')
+  async getFile(@Param('name') name: string, @Res() res: Response) {
+    const file = await this.minioService.downloadFile(name);
 
-    return file;
+    const fileRecord = await this.minioService.getFileRecord(name);
+
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${fileRecord.alias}"`,
+    );
+    res.setHeader('Content-Type', fileRecord.mimeType);
+
+    file.pipe(res);
   }
 
   @Post('upload')

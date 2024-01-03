@@ -1,13 +1,15 @@
-import { DownloadIcon } from "../../assets/icons";
-import { ActionButton } from "../ActionButton";
-
 import styles from "./Title.module.css";
 
-export const Title = () => {
+type Props = {
+  title: string;
+  children?: React.ReactNode;
+};
+
+export const Title: React.FC<Props> = ({ title, children }) => {
   return (
     <div className={styles.Title}>
-      <h3 className={styles.Text}>Мои файлы</h3>
-      <ActionButton label="Загрузить" icon={<DownloadIcon />} />
+      <h3 className={styles.Text}>{title}</h3>
+      {children}
     </div>
   );
 };

@@ -12,7 +12,7 @@ export const Card: React.FC<Props> = ({ children }) => {
       initial={{ translateY: 500 }}
       animate={{ translateY: 0 }}
     >
-      {children}
+      <div className={styles.Content}>{children}</div>
     </motion.div>
   );
 };
