@@ -38,9 +38,15 @@ export class AuthController {
 
   @Post('logout')
   @UseGuards(AccessTokenGuard)
-  async logout(@Req() req: Request) {
+  async logout(
+    @Res({ passthrough: true }) response: Response,
+    @Req() req: Request,
+  ) {
     const userId = req.user['sub'];
     this.authService.logout(userId);
+
+    response.clearCookie('jwt', { path: '/' });
+    response.clearCookie('refreshToken', { path: '/' });
   }
 
   @Post('refresh')
