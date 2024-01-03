@@ -6,3 +6,8 @@ export const loginUser = async (credentials: LoginCredentials) => {
   console.log(result);
   return result;
 };
+
+export const refreshAccess = async () => {
+  const result = await api.post("/auth/refresh", {});
+  return result;
+};

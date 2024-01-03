@@ -1,15 +1,22 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+import { User } from 'src/users/schemas/user.schema';
+
+export type UploadDocument = Upload & Document;
 
 @Schema()
-export class File extends Document {
+export class Upload {
+  @Prop({ required: true })
+  alias: string;
+
   @Prop({ required: true })
   fileName: string;
 
   @Prop({ required: true })
   uploadDate: Date;
 
-  // Add any other attributes you need
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  user: User;
 }
 
-export const FileSchema = SchemaFactory.createForClass(File);
+export const UploadSchema = SchemaFactory.createForClass(Upload);
