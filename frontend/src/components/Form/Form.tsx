@@ -1,15 +1,17 @@
+import { FormEventHandler } from "react";
 import styles from "./Form.module.css";
 
 type Props = {
   title: string;
   children?: React.ReactNode;
+  onSubmit?: FormEventHandler<HTMLFormElement>;
 };
 
 export const Form: React.FC<Props> & {
   Content: React.FC<ContentProps>;
-} = ({ title, children }) => {
+} = ({ title, children, onSubmit }) => {
   return (
-    <form className={styles.Form}>
+    <form className={styles.Form} onSubmit={onSubmit}>
       <h2 className={styles.Title}>{title}</h2>
       {children}
     </form>
