@@ -1,4 +1,9 @@
-import { DownloadIcon, KeyBoldIcon, UserBoldIcon } from "../assets/icons";
+import {
+  DownloadIcon,
+  EyeIcon,
+  KeyBoldIcon,
+  UserBoldIcon,
+} from "../assets/icons";
 import { ActionButton } from "../components/ActionButton";
 import { Modal } from "../components/Modal";
 import { Title } from "../components/Title";
@@ -65,6 +70,10 @@ export const HomePage = () => {
               title={file.alias}
               text={file.uploadDate.toString()}
             >
+              <Button
+                icon={<EyeIcon fill="#9381ff" />}
+                onClick={() => handleDownload(file)}
+              />
               <Button
                 icon={<DownloadIcon fill="#9381ff" />}
                 onClick={() => handleDownload(file)}

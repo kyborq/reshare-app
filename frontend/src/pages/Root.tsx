@@ -18,6 +18,7 @@ export const Root = () => {
       authModal.closeModal();
       setUser({ user });
     },
+    retry: false,
   });
 
   const [user, setUser] = useAtom(userAtom);

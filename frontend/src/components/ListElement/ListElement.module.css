@@ -24,3 +24,7 @@
   font-size: 13px;
   color: #8983ad;
 }
+
+.Actions {
+  display: flex;
+}

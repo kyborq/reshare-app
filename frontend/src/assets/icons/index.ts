@@ -7,6 +7,7 @@ import UserBoldIcon from "./user-bold.svg?react";
 import UserIcon from "./user.svg?react";
 import FileIcon from "./file-icon.svg?react";
 import PremiumIcon from "./premium.svg?react";
+import EyeIcon from "./eye.svg?react";
 
 export {
   KeyIcon,
@@ -18,4 +19,5 @@ export {
   UserIcon,
   FileIcon,
   PremiumIcon,
+  EyeIcon,
 };
