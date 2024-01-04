@@ -44,7 +44,7 @@ export class AuthService {
     if (!user || !user.token) {
       throw new ForbiddenException('Access Denied');
     }
-
+    console.log('писька', refreshToken);
     const refreshTokenMatches = await argon2.verify(user.token, refreshToken);
 
     if (!refreshTokenMatches) {
@@ -68,7 +68,7 @@ export class AuthService {
         { sub: id, login },
         {
           secret: this.configService.get('JWT_ACCESS_SECRET'),
-          expiresIn: '15m',
+          expiresIn: '1m',
         },
       ),
 

@@ -15,8 +15,6 @@ export const api = axios.create({
 //     if (error.response.status === 401 && !originalRequest._retry) {
 //       originalRequest._retry = true;
 //       await refreshAccess();
-//       return api(originalRequest);
 //     }
-//     return Promise.reject(error);
 //   }
 // );

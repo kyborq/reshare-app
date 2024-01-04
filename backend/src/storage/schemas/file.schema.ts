@@ -24,6 +24,9 @@ export class Upload {
   @Prop({ required: true })
   expirationDate: Date;
 
+  @Prop({ required: true, default: false })
+  isAvailable: boolean;
+
   @Prop({ required: true, default: 1 })
   version: number;
 

@@ -17,7 +17,7 @@ export const ListElement: React.FC<Props> = ({ title, text, children }) => {
         <span className={styles.Title}>{cutLongText(title)}</span>
         <span className={styles.Text}>{toReadableDate(text)}</span>
       </div>
-      {children}
+      <div className={styles.Actions}>{children}</div>
     </div>
   );
 };

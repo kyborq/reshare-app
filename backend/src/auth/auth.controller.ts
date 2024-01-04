@@ -21,7 +21,7 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       path: '/',
-      maxAge: 1000 * 60 * 15,
+      maxAge: 1000 * 60,
     });
 
     response.cookie('refreshToken', refreshToken, {
@@ -52,8 +52,9 @@ export class AuthController {
   @Post('refresh')
   @UseGuards(RefreshTokenGuard)
   async refresh(@Req() req: Request) {
-    const userId = req.user['sub'];
-    const refreshToken = req.user['refreshToken'];
-    this.authService.refreshTokens(userId, refreshToken);
+    // const userId = req.user['sub'];
+    // const refreshToken = req.user['refreshToken'];
+    console.log(req.user);
+    // this.authService.refreshTokens(userId, refreshToken);
   }
 }
