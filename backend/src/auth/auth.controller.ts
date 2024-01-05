@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refresh-token.guard';
-import { LoginDto } from './dtos/credentials.dto';
+import { LoginDto } from './dtos/login.dto';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -34,6 +34,11 @@ export class AuthController {
     return {
       message: 'Logged in successfully.',
     };
+  }
+
+  @Post('register')
+  async register() {
+    // ...
   }
 
   @Post('logout')

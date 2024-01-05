@@ -7,7 +7,9 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as argon2 from 'argon2';
 import { UsersService } from 'src/users/users.service';
-import { LoginDto } from './dtos/credentials.dto';
+import { LoginDto } from './dtos/login.dto';
+import { EmailService } from 'src/email/email.service';
+import { RegisterDto } from './dtos/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +17,18 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private emailService: EmailService,
   ) {}
+
+  private createEmailVerificationToken(): string {
+    return Math.random().toString(36).substring(2, 15);
+  }
+
+  async register(credentials: RegisterDto) {
+    const emailVerificationToken = this.createEmailVerificationToken();
+
+    // ...
+  }
 
   async login(credentials: LoginDto) {
     const user = await this.usersService.findByLogin(credentials.login);
@@ -44,7 +57,6 @@ export class AuthService {
     if (!user || !user.token) {
       throw new ForbiddenException('Access Denied');
     }
-    console.log('писька', refreshToken);
     const refreshTokenMatches = await argon2.verify(user.token, refreshToken);
 
     if (!refreshTokenMatches) {
