@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { Injectable } from '@nestjs/common';
 import { Strategy } from 'passport-jwt';
-import { cookieExtractor } from 'src/common/extractors/cookie.extractor';
+import { Request } from 'express';
 
 export type JwtPayload = {
   sub: string;
@@ -22,3 +22,10 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
     return payload;
   }
 }
+
+const cookieExtractor = (req: Request): string | null => {
+  if (req && req.cookies) {
+    return req.cookies['jwt'];
+  }
+  return null;
+};

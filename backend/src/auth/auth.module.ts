@@ -5,10 +5,9 @@ import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { EmailService } from 'src/email/email.service';
 
 @Module({
-  imports: [JwtModule.register({}), UsersModule, EmailService],
+  imports: [JwtModule.register({}), UsersModule],
   providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
   controllers: [AuthController],
 })
