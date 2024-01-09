@@ -12,13 +12,7 @@ export class User extends Document {
   password: string;
 
   @Prop({ required: true })
-  email: string;
-
-  @Prop({ default: false })
-  isEmailVerified: boolean;
-
-  @Prop()
-  emailVerificationToken?: string;
+  name: string;
 
   @Prop()
   token?: string;

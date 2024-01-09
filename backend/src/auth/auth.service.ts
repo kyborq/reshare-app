@@ -12,82 +12,99 @@ import { RegisterDto } from './dtos/register.dto';
 
 @Injectable()
 export class AuthService {
+  private readonly jwtAccessSecret: string;
+  private readonly jwtRefreshSecret: string;
+
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    private configService: ConfigService,
-  ) {}
+    configService: ConfigService,
+  ) {
+    this.jwtAccessSecret = configService.get('JWT_ACCESS_SECRET');
+    this.jwtRefreshSecret = configService.get('JWT_REFRESH_SECRET');
+  }
 
   async register(credentials: RegisterDto) {
-    // ...
+    const hashedPassword = await this.hashData(credentials.password);
+
+    const createdUser = await this.usersService.createUser({
+      ...credentials,
+      password: hashedPassword,
+    });
+
+    return this.issueTokens(createdUser.id, createdUser.login);
   }
 
   async login(credentials: LoginDto) {
     const user = await this.usersService.findByLogin(credentials.login);
-
     if (!user) {
       throw new BadRequestException('User does not exist');
     }
 
-    if (user.password !== credentials.password) {
+    const passwordsMatching = await argon2.verify(
+      user.password,
+      credentials.password,
+    );
+    if (!passwordsMatching) {
       throw new BadRequestException('Password or login are incorrect');
     }
 
-    const tokens = await this.getTokens(user._id, user.login);
-    await this.updateRefreshToken(user._id, tokens.refreshToken);
+    return this.issueTokens(user.id, user.login);
+  }
 
-    return tokens;
+  async refreshTokens(userId: string, refreshToken: string) {
+    const user = await this.getValidUserForRefreshToken(userId);
+
+    await this.verifyRefreshToken(user.token, refreshToken);
+
+    return this.issueTokens(user.id, user.login);
   }
 
   async logout(id: string) {
     await this.usersService.setRefreshToken(id);
   }
 
-  async refreshTokens(userId: string, refreshToken: string) {
-    const user = await this.usersService.findById(userId);
-
-    if (!user || !user.token) {
-      throw new ForbiddenException('Access Denied');
-    }
-    const refreshTokenMatches = await argon2.verify(user.token, refreshToken);
-
+  private async verifyRefreshToken(storedToken: string, providedToken: string) {
+    const refreshTokenMatches = await argon2.verify(storedToken, providedToken);
     if (!refreshTokenMatches) {
       throw new ForbiddenException('Access Denied');
     }
+  }
 
-    const tokens = await this.getTokens(user.id, user.login);
-    await this.updateRefreshToken(user.id, tokens.refreshToken);
+  private async getValidUserForRefreshToken(userId: string) {
+    const user = await this.usersService.findById(userId);
+    if (!user || !user.token) {
+      throw new ForbiddenException('Access Denied');
+    }
+    return user;
+  }
 
+  private async issueTokens(userId: string, login: string) {
+    const tokens = await this.generateTokens(userId, login);
+    await this.updateRefreshToken(userId, tokens.refreshToken);
     return tokens;
   }
 
-  async updateRefreshToken(id: string, token: string) {
-    const refreshToken = await argon2.hash(token);
-    await this.usersService.setRefreshToken(id, refreshToken);
+  private async generateTokens(userId: string, login: string) {
+    const accessToken = await this.jwtService.signAsync(
+      { sub: userId, login },
+      { secret: this.jwtAccessSecret, expiresIn: '15m' },
+    );
+
+    const refreshToken = await this.jwtService.signAsync(
+      { sub: userId, login },
+      { secret: this.jwtRefreshSecret, expiresIn: '7d' },
+    );
+
+    return { accessToken, refreshToken };
   }
 
-  async getTokens(id: string, login: string) {
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(
-        { sub: id, login },
-        {
-          secret: this.configService.get('JWT_ACCESS_SECRET'),
-          expiresIn: '1m',
-        },
-      ),
+  private async updateRefreshToken(userId: string, refreshToken: string) {
+    const hashedRefreshToken = await this.hashData(refreshToken);
+    await this.usersService.setRefreshToken(userId, hashedRefreshToken);
+  }
 
-      this.jwtService.signAsync(
-        { sub: id, login },
-        {
-          secret: this.configService.get('JWT_REFRESH_SECRET'),
-          expiresIn: '30d',
-        },
-      ),
-    ]);
-
-    return {
-      accessToken,
-      refreshToken,
-    };
+  private async hashData(data: string): Promise<string> {
+    return argon2.hash(data);
   }
 }

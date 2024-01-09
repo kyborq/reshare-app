@@ -31,6 +31,7 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
+  @UseInterceptors(SetCookiesInterceptor)
   async register(@Body() credentials: RegisterDto) {
     return await this.authService.register(credentials);
   }
